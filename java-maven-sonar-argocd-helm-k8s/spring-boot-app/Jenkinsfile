@@ -6,8 +6,8 @@ pipeline {
     environment {
         APP_NAME = "java-app"
         DOCKER_USER = "vigneshrepo23"
-        DOCKER_IMAGE = "${DOCKER_USER} + ${java-app}"
-        DOCKER_TAG = "${DOCKER_IMAGE} + ${BUILD_NUMBER}"
+        DOCKER_IMAGE = "${DOCKER_USER}" + "${java-app}"
+        DOCKER_TAG = "${DOCKER_IMAGE}" + "${BUILD_NUMBER}"
         DOCKER_TOKEN = "docker-token"
     }
     stages {
