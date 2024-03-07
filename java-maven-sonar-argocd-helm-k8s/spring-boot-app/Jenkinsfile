@@ -4,10 +4,12 @@ pipeline {
         maven 'maven3'
     }
     environment {
-        APP_NAME = "java-app"
-        DOCKER_USER = "vigneshrepo23"
-        DOCKER_IMAGE = "${DOCKER_USER} + ${APP_NAME}"
-        DOCKER_TAG = "${DOCKER_IMAGE} + ${BUILD_NUMBER}"
+        // APP_NAME = "java-app"
+        // DOCKER_USER = "vigneshrepo23"
+        // DOCKER_IMAGE = "${DOCKER_USER} + ${APP_NAME}"
+        // DOCKER_TAG = "${DOCKER_IMAGE} + ${BUILD_NUMBER}"
+        registry = "vigneshrepo23/javaapp>"
+        registryCredential = 'docker-token' 
         DOCKER_TOKEN = "docker-token"
     }
     stages {
@@ -36,14 +38,21 @@ pipeline {
             }
         }
         stage ("build & push image") {
-            steps {
-                 script {
-                     def dockerImage = docker.build("${APP_NAME}":"${env.BUILD_ID}")
-                     docker.withRegistry('', "${DOCKER_TOKEN}") {
-                     dockerImage.push()
-                    }
+           steps{
+            script {
+              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+               }
+            }
+        }
+        stage('Deploy Image') {
+          steps{
+             script {
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+                  }
                 }
             }
         }
+
     }
 }
