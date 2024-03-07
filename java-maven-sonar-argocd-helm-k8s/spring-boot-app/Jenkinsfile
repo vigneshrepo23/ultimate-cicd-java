@@ -48,7 +48,7 @@ pipeline {
         stage('Deploy Image') {
           steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'DOCKER_TOKEN') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-token') {
                         docker.image("vigneshrepo23/java-app:${TAG}").push()
                         docker.image("vigneshrepo23/java-app:${TAG}").push("latest")
                     }
