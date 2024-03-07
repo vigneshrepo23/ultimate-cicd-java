@@ -38,7 +38,7 @@ pipeline {
         stage ("build & push image") {
             steps {
                  script {
-                     def dockerImage = docker.build("my-image:${env.BUILD_ID}")
+                     def dockerImage = docker.build("${APP_NAME}":"${env.BUILD_ID}")
                      docker.withRegistry('', "${DOCKER_TOKEN}") {
                      dockerImage.push()
                     }
