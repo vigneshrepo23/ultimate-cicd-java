@@ -14,5 +14,19 @@ pipeline {
                 sh "cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package"
             }
         }
+        stage ("sonar") {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                sh 'mvn clean package sonar:sonar'
+               }
+            }
+        }
+        stage ("gates") {
+            steps {
+                 timeout(time: 1, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+               }
+            }
+        }
     }
 }
