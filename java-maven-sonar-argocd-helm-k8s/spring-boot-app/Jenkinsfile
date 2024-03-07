@@ -38,13 +38,11 @@ pipeline {
         stage ("build & push image") {
             steps {
                 script {
-                 sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'{
+                 sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
                     docker.image = docker.build "${DOCKER_IMAGE}"
-                  }
-                  docker.withRegistry('',DOCKER_TOKEN) {
+                    docker.withRegistry('',DOCKER_TOKEN) {
                     docker_image.push("${DOCKER_TAG}")
-                  }
-            
+                    }
                 }   
             }
         }
